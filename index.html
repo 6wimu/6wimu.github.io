@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chinese Name Recommendation Metadata Schema</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <div class="kicker">Metadata Schema Final Project</div>
+    <h1>Chinese Name Recommendation Database for Foreigners</h1>
+    <p class="subtitle">
+      A documented XML metadata schema for describing how foreign personal names are
+      transformed into culturally meaningful and pronounceable Chinese names.
+    </p>
+  </div>
+</header>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#narrative">1. Opening Narrative</a>
+    <a href="#standards">2. Standards</a>
+    <a href="#vocabulary">3. Vocabulary</a>
+    <a href="#xsd">4. XSD</a>
+    <a href="#samples">5. XML Samples</a>
+  </div>
+</nav>
+
+<main>
+<section id="narrative">
+  <h2>1. Opening Narrative</h2>
+  <p>
+    Chinese names assigned to non-Chinese speakers have historically been created through
+    several strategies, including phonetic transcription, semantic translation, localization,
+    and the preservation of names from other Han-character cultures. A usable name is therefore
+    not only a string of characters. It also carries information about sound, meaning, cultural
+    fit, identity, and the relationship between the original and newly created name.
+  </p>
+  <p>
+    This schema is intended for Chinese-language teachers, translators, international students,
+    librarians, cultural mediators, name-recommendation services, and developers building
+    searchable databases. It supports both human-readable documentation and machine validation.
+  </p>
+  <p>
+    The design evolved from a simple ten-element application profile into a more domain-specific
+    XML schema. The final version adds original-language context, a complete Chinese-name display
+    field, IPA pronunciation, and Hanzi radical information. It also separates general semantic
+    borrowing from technical XSD implementation: concepts informed by Schema.org and FOAF are
+    locally declared when no practical official XSD is available, while Dublin Core Terms is
+    referenced as an external standard.
+  </p>
+  <div class="note">
+    <strong>Theoretical consideration:</strong> a recommended Chinese name should be represented
+    as a culturally situated identity label whose pronunciation, semantics, writing system,
+    and naming method can all be documented independently.
+  </div>
+</section>
+
+<section id="standards">
+  <h2>2. Relevant Metadata Standards</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>Dublin Core Terms</h3>
+      <p>Used directly for the record identifier and descriptive naming rationale because these are reusable cross-domain properties.</p>
+    </div>
+    <div class="card">
+      <h3>Schema.org</h3>
+      <p>Informed the treatment of general name and nationality concepts in earlier drafts. The final XSD locally declares domain-specific versions for reliable validation.</p>
+    </div>
+    <div class="card">
+      <h3>FOAF</h3>
+      <p>Informed the distinction between family name and given name. These concepts are implemented locally in the final XSD.</p>
+    </div>
+    <div class="card">
+      <h3>SKOS</h3>
+      <p>Supported the design of definitions and controlled vocabularies, especially mapping type, difficulty, and cultural elements.</p>
+    </div>
+    <div class="card">
+      <h3>ISO 3166-1</h3>
+      <p>Nationality values use two-letter uppercase country codes such as KR and US.</p>
+    </div>
+    <div class="card">
+      <h3>IPA</h3>
+      <p>The International Phonetic Alphabet provides an optional pronunciation field beyond Pinyin.</p>
+    </div>
+  </div>
+</section>
+
+<section id="vocabulary">
+  <h2>3. Vocabulary Specification</h2>
+  <h3>Element Overview</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Element</th><th>Label</th><th>Source</th><th>Brief Definition</th></tr></thead>
+      <tbody><tr><td><code>dcterms:identifier</code></td><td>Record ID</td><td>Dublin Core Terms</td><td>Unique identifier for each name record.</td></tr>
+<tr><td><code>originalName</code></td><td>Original Name</td><td>Local; concept informed by Schema.org</td><td>The person&#x27;s full name before Chinese-name creation.</td></tr>
+<tr><td><code>inLanguage</code></td><td>Original-name Language</td><td>Local</td><td>Language context of the original name.</td></tr>
+<tr><td><code>familyName</code></td><td>Chinese Family Name</td><td>Local; concept informed by FOAF</td><td>Chinese surname used in the created name.</td></tr>
+<tr><td><code>givenName</code></td><td>Chinese Given Name</td><td>Local; concept informed by FOAF</td><td>Chinese given-name characters, excluding the surname.</td></tr>
+<tr><td><code>fullChineseName</code></td><td>Full Chinese Name</td><td>Local</td><td>Complete Chinese name used for display and search.</td></tr>
+<tr><td><code>pinyin</code></td><td>Pinyin</td><td>Local</td><td>Standard Hanyu Pinyin with tone marks.</td></tr>
+<tr><td><code>ipa</code></td><td>IPA Pronunciation</td><td>Local</td><td>Pronunciation represented with the International Phonetic Alphabet.</td></tr>
+<tr><td><code>nationality</code></td><td>Nationality</td><td>Local; ISO 3166-1 alpha-2 values</td><td>Applicant nationality represented by a two-letter country code.</td></tr>
+<tr><td><code>mappingType</code></td><td>Name Mapping Type</td><td>Local controlled vocabulary</td><td>Method used to transform the original name into a Chinese name.</td></tr>
+<tr><td><code>dcterms:description</code></td><td>Name Meaning and Design Rationale</td><td>Dublin Core Terms</td><td>Meaning of the selected characters and the naming intention.</td></tr>
+<tr><td><code>hanziRadical</code></td><td>Hanzi Radical</td><td>Local</td><td>Radical information for important characters in the given name.</td></tr>
+<tr><td><code>pronunciationDifficulty</code></td><td>Pronunciation Difficulty</td><td>Local controlled vocabulary</td><td>Estimated difficulty for a non-Chinese speaker.</td></tr>
+<tr><td><code>culturalElement</code></td><td>Cultural Element</td><td>Local controlled vocabulary</td><td>Chinese cultural or philosophical consideration used in naming.</td></tr></tbody>
+    </table>
+  </div>
+
+  <h3>Controlled Vocabularies</h3>
+  <p><strong>inLanguage:</strong>
+    <span class="badge">English</span><span class="badge">Korean</span>
+    <span class="badge">Japanese</span><span class="badge">Other</span>
+  </p>
+  <p><strong>mappingType:</strong>
+    <span class="badge">Phonetic</span><span class="badge">Semantic</span>
+    <span class="badge">Localization</span><span class="badge">HanjaSphere</span>
+    <span class="badge">Phono-Semantic</span>
+  </p>
+  <p><strong>pronunciationDifficulty:</strong>
+    <span class="badge">Low</span><span class="badge">Medium</span><span class="badge">High</span>
+  </p>
+  <p><strong>culturalElement:</strong>
+    <span class="badge">Zodiac</span><span class="badge">FiveElements</span><span class="badge">None</span>
+  </p>
+
+  <h3>Full Data Dictionary</h3>
+  <div class="grid"><div class="card">
+      <h3><code>dcterms:identifier</code></h3>
+      <p><strong>Label:</strong> Record ID</p>
+      <p><strong>Source:</strong> Dublin Core Terms</p>
+      <p><strong>Definition:</strong> Unique identifier for each name record.</p>
+      <p><strong>Value:</strong> string</p>
+      <p><strong>Cardinality:</strong> Required; one</p>
+      <p><strong>Example:</strong> <code>CN-2026-0002</code></p>
+    </div>
+<div class="card">
+      <h3><code>originalName</code></h3>
+      <p><strong>Label:</strong> Original Name</p>
+      <p><strong>Source:</strong> Local; concept informed by Schema.org</p>
+      <p><strong>Definition:</strong> The person&#x27;s full name before Chinese-name creation.</p>
+      <p><strong>Value:</strong> string</p>
+      <p><strong>Cardinality:</strong> Required; one</p>
+      <p><strong>Example:</strong> <code>David</code></p>
+    </div>
+<div class="card">
+      <h3><code>inLanguage</code></h3>
+      <p><strong>Label:</strong> Original-name Language</p>
+      <p><strong>Source:</strong> Local</p>
+      <p><strong>Definition:</strong> Language context of the original name.</p>
+      <p><strong>Value:</strong> English, Korean, Japanese, Other</p>
+      <p><strong>Cardinality:</strong> Required; one</p>
+      <p><strong>Example:</strong> <code>English</code></p>
+    </div>
+<div class="card">
+      <h3><code>familyName</code></h3>
+      <p><strong>Label:</strong> Chinese Family Name</p>
+      <p><strong>Source:</strong> Local; concept informed by FOAF</p>
+      <p><strong>Definition:</strong> Chinese surname used in the created name.</p>
+      <p><strong>Value:</strong> string</p>
+      <p><strong>Cardinality:</strong> Optional; one</p>
+      <p><strong>Example:</strong> <code>戴</code></p>
+    </div>
+<div class="card">
+      <h3><code>givenName</code></h3>
+      <p><strong>Label:</strong> Chinese Given Name</p>
+      <p><strong>Source:</strong> Local; concept informed by FOAF</p>
+      <p><strong>Definition:</strong> Chinese given-name characters, excluding the surname.</p>
+      <p><strong>Value:</strong> string</p>
+      <p><strong>Cardinality:</strong> Required; one</p>
+      <p><strong>Example:</strong> <code>伟</code></p>
+    </div>
+<div class="card">
+      <h3><code>fullChineseName</code></h3>
+      <p><strong>Label:</strong> Full Chinese Name</p>
+      <p><strong>Source:</strong> Local</p>
+      <p><strong>Definition:</strong> Complete Chinese name used for display and search.</p>
+      <p><strong>Value:</strong> string</p>
+      <p><strong>Cardinality:</strong> Required; one</p>
+      <p><strong>Example:</strong> <code>戴伟</code></p>
+    </div>
+<div class="card">
+      <h3><code>pinyin</code></h3>
+      <p><strong>Label:</strong> Pinyin</p>
+      <p><strong>Source:</strong> Local</p>
+      <p><strong>Definition:</strong> Standard Hanyu Pinyin with tone marks.</p>
+      <p><strong>Value:</strong> string</p>
+      <p><strong>Cardinality:</strong> Required; one</p>
+      <p><strong>Example:</strong> <code>Dài Wěi</code></p>
+    </div>
+<div class="card">
+      <h3><code>ipa</code></h3>
+      <p><strong>Label:</strong> IPA Pronunciation</p>
+      <p><strong>Source:</strong> Local</p>
+      <p><strong>Definition:</strong> Pronunciation represented with the International Phonetic Alphabet.</p>
+      <p><strong>Value:</strong> string</p>
+      <p><strong>Cardinality:</strong> Optional; one</p>
+      <p><strong>Example:</strong> <code>[taɪ̯˥˧ weɪ̯˨˩˦]</code></p>
+    </div>
+<div class="card">
+      <h3><code>nationality</code></h3>
+      <p><strong>Label:</strong> Nationality</p>
+      <p><strong>Source:</strong> Local; ISO 3166-1 alpha-2 values</p>
+      <p><strong>Definition:</strong> Applicant nationality represented by a two-letter country code.</p>
+      <p><strong>Value:</strong> [A-Z]{2}</p>
+      <p><strong>Cardinality:</strong> Required; one</p>
+      <p><strong>Example:</strong> <code>US</code></p>
+    </div>
+<div class="card">
+      <h3><code>mappingType</code></h3>
+      <p><strong>Label:</strong> Name Mapping Type</p>
+      <p><strong>Source:</strong> Local controlled vocabulary</p>
+      <p><strong>Definition:</strong> Method used to transform the original name into a Chinese name.</p>
+      <p><strong>Value:</strong> Phonetic, Semantic, Localization, HanjaSphere, Phono-Semantic</p>
+      <p><strong>Cardinality:</strong> Required; one</p>
+      <p><strong>Example:</strong> <code>Localization</code></p>
+    </div>
+<div class="card">
+      <h3><code>dcterms:description</code></h3>
+      <p><strong>Label:</strong> Name Meaning and Design Rationale</p>
+      <p><strong>Source:</strong> Dublin Core Terms</p>
+      <p><strong>Definition:</strong> Meaning of the selected characters and the naming intention.</p>
+      <p><strong>Value:</strong> string</p>
+      <p><strong>Cardinality:</strong> Required; one</p>
+      <p><strong>Example:</strong> <code>Meaning and design explanation</code></p>
+    </div>
+<div class="card">
+      <h3><code>hanziRadical</code></h3>
+      <p><strong>Label:</strong> Hanzi Radical</p>
+      <p><strong>Source:</strong> Local</p>
+      <p><strong>Definition:</strong> Radical information for important characters in the given name.</p>
+      <p><strong>Value:</strong> string</p>
+      <p><strong>Cardinality:</strong> Optional; repeatable</p>
+      <p><strong>Example:</strong> <code>亻</code></p>
+    </div>
+<div class="card">
+      <h3><code>pronunciationDifficulty</code></h3>
+      <p><strong>Label:</strong> Pronunciation Difficulty</p>
+      <p><strong>Source:</strong> Local controlled vocabulary</p>
+      <p><strong>Definition:</strong> Estimated difficulty for a non-Chinese speaker.</p>
+      <p><strong>Value:</strong> Low, Medium, High</p>
+      <p><strong>Cardinality:</strong> Optional; one</p>
+      <p><strong>Example:</strong> <code>Low</code></p>
+    </div>
+<div class="card">
+      <h3><code>culturalElement</code></h3>
+      <p><strong>Label:</strong> Cultural Element</p>
+      <p><strong>Source:</strong> Local controlled vocabulary</p>
+      <p><strong>Definition:</strong> Chinese cultural or philosophical consideration used in naming.</p>
+      <p><strong>Value:</strong> Zodiac, FiveElements, None</p>
+      <p><strong>Cardinality:</strong> Optional; repeatable</p>
+      <p><strong>Example:</strong> <code>None</code></p>
+    </div></div>
+</section>
+
+<section id="xsd">
+  <h2>4. XSD File</h2>
+  <p>
+    The XSD defines <code>ChineseNameDatabase</code> as the root element and allows one or more
+    <code>NameRecord</code> elements. It includes documentation annotations, cardinality rules,
+    controlled vocabularies, and design-intent comments.
+  </p>
+  <div class="btns">
+    <a class="btn" href="cn_schema.xsd">Open XSD Directly</a>
+    <a class="btn secondary" href="cn_schema.xsd" download>Download XSD</a>
+  </div>
+  <pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!-- 
+     [Design Intent - Schema Architecture &amp; OWL/RDF Handling]
+     Design Intent: Following the professor&#x27;s feedback from Draft 3, I needed to address how OWL/RDF-based vocabularies (like Schema.org and FOAF) are handled in an XSD environment. Since they do not provide official, accessible .xsd files, I adopted a &quot;Local Redefinition Strategy&quot;: I borrowed their conceptual semantics but redefined them as local elements (e.g., &lt;familyName&gt;) under my targetNamespace to ensure validation works perfectly. 
+     For standards that DO provide actual XSD files (like Dublin Core), I successfully used &lt;xs:import&gt; and `ref=` (e.g., dcterms:identifier, dcterms:description) to fulfill the rubric requirement. Additionally, I added domain-specific elements like `ipa` and `hanziRadical` to deepen the project&#x27;s semantic richness based on peer and professor reviews.
+     AI Usage: I prompted the AI to structure the XSD using xs:import for dcterms, and to translate my Draft Data Dictionary into locally validated elements with strict xs:enumeration restrictions. I specifically instructed the AI to add new domain-specific elements (&#x27;hanziRadical&#x27; and &#x27;ipa&#x27;) to reflect my design updates based on previous feedback. Finally, I manually reviewed the generated code to ensure all cardinality constraints (e.g., minOccurs=&quot;0&quot; for familyName) perfectly matched my schema design.
+--&gt;
+&lt;xs:schema xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot;
+           targetNamespace=&quot;http://www.skku.edu/metadata/cn/&quot;
+           xmlns=&quot;http://www.skku.edu/metadata/cn/&quot;
+           xmlns:dcterms=&quot;http://purl.org/dc/terms/&quot;
+           elementFormDefault=&quot;qualified&quot;&gt;
+    
+    &lt;!-- Design Intent: Importing an external schema with a valid schemaLocation to fulfill the requirement for referencing global external elements. --&gt;
+    &lt;xs:import namespace=&quot;http://purl.org/dc/terms/&quot; schemaLocation=&quot;https://www.dublincore.org/schemas/xmls/qdc/2008/02/11/dcterms.xsd&quot;/&gt;
+    
+    &lt;xs:element name=&quot;ChineseNameDatabase&quot;&gt;
+        &lt;xs:annotation&gt;
+            &lt;xs:documentation&gt;The root element containing multiple foreign Chinese name records.&lt;/xs:documentation&gt;
+        &lt;/xs:annotation&gt;
+        &lt;xs:complexType&gt;
+            &lt;xs:sequence&gt;
+                &lt;xs:element name=&quot;NameRecord&quot; maxOccurs=&quot;unbounded&quot;&gt;
+                    &lt;xs:complexType&gt;
+                        &lt;xs:sequence&gt;
+                            
+                            &lt;!-- 1. identifier --&gt;
+                            &lt;!-- Design Intent: Using ref= to pull globally declared element from Dublin Core. minOccurs=&quot;1&quot; makes it mandatory. --&gt;
+                            &lt;xs:element ref=&quot;dcterms:identifier&quot; minOccurs=&quot;1&quot; maxOccurs=&quot;1&quot;&gt;
+                                &lt;xs:annotation&gt;
+                                    &lt;xs:documentation&gt;데이터베이스 안에서 각각의 작명 데이터를 서로 구별하기 위해 시스템이 자동으로 부여하는 고유한 번호입니다.&lt;/xs:documentation&gt;
+                                &lt;/xs:annotation&gt;
+                            &lt;/xs:element&gt;
+                            
+                            &lt;!-- 2. originalName --&gt;
+                            &lt;!-- Design Intent: Locally declared element borrowing concept from schema:name. --&gt;
+                            &lt;xs:element name=&quot;originalName&quot; type=&quot;xs:string&quot; minOccurs=&quot;1&quot; maxOccurs=&quot;1&quot;&gt;
+                                &lt;xs:annotation&gt;
+                                    &lt;xs:documentation&gt;중국어 이름을 짓기 전, 외국인이 원래 사용하던 국가 기준의 본명 전체를 적습니다.&lt;/xs:documentation&gt;
+                                &lt;/xs:annotation&gt;
+                            &lt;/xs:element&gt;
+                            
+    ...</pre>
+  <p class="small">
+    After publishing, the direct XSD address will be your website URL followed by
+    <code>/cn_schema.xsd</code>.
+  </p>
+</section>
+
+<section id="samples">
+  <h2>5. Sample XML Records</h2>
+  <p>Each sample uses the same root structure and references <code>cn_schema.xsd</code>.</p>
+
+  <h3>Sample 1: David → 戴伟</h3>
+  <p><span class="badge">Localization</span> Preserves part of the original sound while creating a natural Chinese surname-and-given-name combination.</p>
+  <div class="btns"><a class="btn" href="sample-david.xml">Open XML</a></div>
+  <pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;ChineseNameDatabase
+    xmlns=&quot;http://www.skku.edu/metadata/cn/&quot;
+    xmlns:dcterms=&quot;http://purl.org/dc/terms/&quot;
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xsi:schemaLocation=&quot;http://www.skku.edu/metadata/cn/ cn_schema.xsd&quot;&gt;
+&lt;NameRecord&gt;
+        &lt;dcterms:identifier&gt;CN-2026-0002&lt;/dcterms:identifier&gt;
+        &lt;originalName&gt;David&lt;/originalName&gt;
+        &lt;inLanguage&gt;English&lt;/inLanguage&gt;
+        &lt;familyName&gt;戴&lt;/familyName&gt;
+        &lt;givenName&gt;伟&lt;/givenName&gt;
+        &lt;fullChineseName&gt;戴伟&lt;/fullChineseName&gt;
+        &lt;pinyin&gt;Dài Wěi&lt;/pinyin&gt;
+        &lt;ipa&gt;[taɪ̯˥˧ weɪ̯˨˩˦]&lt;/ipa&gt;
+        &lt;nationality&gt;US&lt;/nationality&gt;
+        &lt;mappingType&gt;Localization&lt;/mappingType&gt;
+        &lt;dcterms:description&gt;원래 서양 이름인 &#x27;David&#x27;의 첫 발음 소리를 살리면서, 중국의 유명한 전통 성씨인 &#x27;대(戴)&#x27;씨로 연결했습니다. 위대하고 훌륭한 사람이 되라는 뜻입니다.&lt;/dcterms:description&gt;
+        &lt;hanziRadical&gt;亻&lt;/hanziRadical&gt;
+        &lt;pronunciationDifficulty&gt;Low&lt;/pronunciationDifficulty&gt;
+        &lt;culturalElement&gt;None&lt;/culturalElement&gt;
+    &lt;/NameRecord&gt;
+&lt;/ChineseNameDatabase&gt;
+</pre>
+
+  <h3>Sample 2: 박다운 → 朴多韵</h3>
+  <p><span class="badge">Phono-Semantic</span> Combines similar pronunciation with positive semantic associations.</p>
+  <div class="btns"><a class="btn" href="sample-park-daun.xml">Open XML</a></div>
+  <pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;ChineseNameDatabase
+    xmlns=&quot;http://www.skku.edu/metadata/cn/&quot;
+    xmlns:dcterms=&quot;http://purl.org/dc/terms/&quot;
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xsi:schemaLocation=&quot;http://www.skku.edu/metadata/cn/ cn_schema.xsd&quot;&gt;
+&lt;NameRecord&gt;
+        &lt;dcterms:identifier&gt;CN-2026-0007&lt;/dcterms:identifier&gt;
+        &lt;originalName&gt;박다운&lt;/originalName&gt;
+        &lt;inLanguage&gt;Korean&lt;/inLanguage&gt;
+        &lt;familyName&gt;朴&lt;/familyName&gt;
+        &lt;givenName&gt;多韵&lt;/givenName&gt;
+        &lt;fullChineseName&gt;朴多韵&lt;/fullChineseName&gt;
+        &lt;pinyin&gt;Piáo Duōyùn&lt;/pinyin&gt;
+        &lt;ipa&gt;[pʰjaʊ̯˧˥ twɔ˥ yn˥˩]&lt;/ipa&gt;
+        &lt;nationality&gt;KR&lt;/nationality&gt;
+        &lt;mappingType&gt;Phono-Semantic&lt;/mappingType&gt;
+        &lt;dcterms:description&gt;한국어 고유어 발음과 동일하게 읽히는 한자를 골랐습니다. 아름다운 예술적 운치와 풍요로움이 가득하길 바란다는 뜻입니다.&lt;/dcterms:description&gt;
+        &lt;hanziRadical&gt;夕&lt;/hanziRadical&gt;
+        &lt;hanziRadical&gt;音&lt;/hanziRadical&gt;
+        &lt;pronunciationDifficulty&gt;Medium&lt;/pronunciationDifficulty&gt;
+        &lt;culturalElement&gt;None&lt;/culturalElement&gt;
+    &lt;/NameRecord&gt;
+&lt;/ChineseNameDatabase&gt;
+</pre>
+
+  <h3>Combined Sample File</h3>
+  <div class="btns"><a class="btn secondary" href="sample-records.xml">Open Both Records</a></div>
+</section>
+</main>
+
+<footer>
+  Final project website · Chinese Name Recommendation Metadata Schema
+</footer>
+</body>
+</html>
